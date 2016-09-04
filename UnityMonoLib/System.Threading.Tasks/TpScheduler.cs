@@ -50,7 +50,7 @@ namespace System.Threading.Tasks
 				return;
 			}
 
-			ThreadPool.UnsafeQueueUserWorkItem (callback, task);
+			ThreadPool.QueueUserWorkItem(callback, task);
 		}
 
 		static void TaskExecuterCallback (object obj)
