@@ -111,7 +111,6 @@
     <Compile Include="System.Runtime.CompilerServices\ConfiguredTaskAwaitable.cs" />
     <Compile Include="System.Runtime.CompilerServices\ConfiguredTaskAwaitable_T.cs" />
     <Compile Include="System.Runtime.CompilerServices\ExecutionScope.cs" />
-    <Compile Include="System.Runtime.CompilerServices\ExtensionAttribute.cs" />
     <Compile Include="System.Runtime.CompilerServices\IAsyncStateMachine.cs" />
     <Compile Include="System.Runtime.CompilerServices\ICriticalNotifyCompletion.cs" />
     <Compile Include="System.Runtime.CompilerServices\INotifyCompletion.cs" />
