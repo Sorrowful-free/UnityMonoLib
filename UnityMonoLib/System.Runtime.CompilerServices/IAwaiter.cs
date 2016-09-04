@@ -10,12 +10,12 @@ namespace UnityMonoLib.System.Runtime.CompilerServices
     {
         bool IsCompleted { get; }
     }
-    interface IAwaiter : IBaseAwaiter
+    public interface IAwaiter : IBaseAwaiter
     {
         void GetResult();
     }
 
-    interface IIAwaiter<TResult> : IBaseAwaiter
+    public interface IIAwaiter<TResult> : IBaseAwaiter
     {
         TResult GetResult();
     }
