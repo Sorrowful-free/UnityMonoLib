@@ -34,7 +34,6 @@ namespace System.Collections.Concurrent
 {
 
 	[System.Diagnostics.DebuggerDisplay ("Count={Count}")]
-	[System.Diagnostics.DebuggerTypeProxy (typeof (CollectionDebuggerView<>))]
 	public class ConcurrentQueue<T> : IProducerConsumerCollection<T>, IEnumerable<T>, ICollection,
 	                                  IEnumerable
 	{
@@ -97,13 +96,12 @@ namespace System.Collections.Concurrent
 		public bool TryDequeue (out T result)
 		{
 			result = default (T);
-			Node oldNext = null;
 			bool advanced = false;
 
 			while (!advanced) {
 				Node oldHead = head;
 				Node oldTail = tail;
-				oldNext = oldHead.Next;
+				Node oldNext = oldHead.Next;
 				
 				if (oldHead == head) {
 					// Empty case ?
@@ -123,8 +121,6 @@ namespace System.Collections.Concurrent
 				}
 			}
 
-			oldNext.Value = default (T);
-
 			Interlocked.Decrement (ref count);
 
 			return true;
@@ -132,24 +128,13 @@ namespace System.Collections.Concurrent
 		
 		public bool TryPeek (out T result)
 		{
-			result = default (T);
-			bool update = true;
-			
-			while (update)
-			{
-				Node oldHead = head;
-				Node oldNext = oldHead.Next;
-
-				if (oldNext == null) {
-					result = default (T);
-					return false;
-				}
-
-				result = oldNext.Value;
-				
-				//check if head has been updated
-				update = head != oldHead;
+			if (IsEmpty) {
+				result = default (T);
+				return false;
 			}
+			
+			Node first = head.Next;
+			result = first.Value;
 			return true;
 		}
 		

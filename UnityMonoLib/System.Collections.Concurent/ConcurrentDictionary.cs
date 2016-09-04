@@ -34,8 +34,6 @@ using System.Diagnostics;
 namespace System.Collections.Concurrent
 {
 	[DebuggerDisplay ("Count={Count}")]
-	[DebuggerTypeProxy (typeof (CollectionDebuggerView<,>))]
-	[Serializable]
 	public class ConcurrentDictionary<TKey, TValue> : IDictionary<TKey, TValue>,
 	  ICollection<KeyValuePair<TKey, TValue>>, IEnumerable<KeyValuePair<TKey, TValue>>,
 	  IDictionary, ICollection, IEnumerable
@@ -239,10 +237,10 @@ namespace System.Collections.Concurrent
 		object IDictionary.this [object key]
 		{
 			get {
-				TValue obj;
-				if (key is TKey && TryGetValue ((TKey) key, out obj))
-					return obj;
-				return null;
+				if (!(key is TKey))
+					throw new ArgumentException ("key isn't of correct type", "key");
+
+				return this[(TKey)key];
 			}
 			set {
 				if (!(key is TKey) || !(value is TValue))
@@ -262,11 +260,7 @@ namespace System.Collections.Concurrent
 
 		bool ICollection<KeyValuePair<TKey,TValue>>.Contains (KeyValuePair<TKey, TValue> pair)
 		{
-			TValue value;
-			if (!TryGetValue (pair.Key, out value))
-				return false;
-
-			return EqualityComparer<TValue>.Default.Equals (value, pair.Value);
+			return ContainsKey (pair.Key);
 		}
 
 		public KeyValuePair<TKey,TValue>[] ToArray ()
