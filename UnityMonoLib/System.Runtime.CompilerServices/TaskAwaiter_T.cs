@@ -31,10 +31,11 @@
 
 using System.Threading.Tasks;
 using System.Runtime.ExceptionServices;
+using UnityMonoLib.System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
 {
-	public struct TaskAwaiter<TResult> : ICriticalNotifyCompletion
+	public struct TaskAwaiter<TResult> : IIAwaiter<TResult>
 	{
 		readonly Task<TResult> task;
 

@@ -31,12 +31,13 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using UnityMonoLib.System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
 {
 	public struct YieldAwaitable
 	{
-		public struct YieldAwaiter : ICriticalNotifyCompletion
+		public struct YieldAwaiter : IAwaiter
 		{
 			public bool IsCompleted {
 				get {
