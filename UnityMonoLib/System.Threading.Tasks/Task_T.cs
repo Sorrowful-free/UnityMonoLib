@@ -35,7 +35,7 @@ namespace System.Threading.Tasks
 {
 	[System.Diagnostics.DebuggerDisplay ("Id = {Id}, Status = {Status}, Result = {ResultAsString}")]
 	[System.Diagnostics.DebuggerTypeProxy (typeof (TaskDebuggerView))]
-	public class Task<TResult> : Task
+	public class Task<TResult> : Task 
 	{
 		static readonly TaskFactory<TResult> factory = new TaskFactory<TResult> ();
 

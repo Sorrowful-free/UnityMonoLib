@@ -31,11 +31,11 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using UnityMonoLib.System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
 {
-	public struct YieldAwaitable
+	public struct YieldAwaitable : IAwaitable
 	{
 		public struct YieldAwaiter : IAwaiter
 		{
@@ -82,11 +82,11 @@ namespace System.Runtime.CompilerServices
 			}
 		}
 
-		public YieldAwaitable.YieldAwaiter GetAwaiter ()
+		public IAwaiter GetAwaiter ()
 		{
-			return new YieldAwaiter ();
-		}
-	}
+            return new YieldAwaiter();
+        }
+    }
 }
 
 #endif

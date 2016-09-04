@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace UnityMonoLib.System.Runtime.CompilerServices
+namespace System.Runtime.CompilerServices
 {
     public interface IBaseAwaiter : ICriticalNotifyCompletion
     {
@@ -15,7 +15,7 @@ namespace UnityMonoLib.System.Runtime.CompilerServices
         void GetResult();
     }
 
-    public interface IIAwaiter<TResult> : IBaseAwaiter
+    public interface IAwaiter<TResult> : IBaseAwaiter
     {
         TResult GetResult();
     }

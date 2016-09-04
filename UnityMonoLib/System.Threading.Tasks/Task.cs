@@ -40,7 +40,7 @@ namespace System.Threading.Tasks
 {
 	[System.Diagnostics.DebuggerDisplay ("Id = {Id}, Status = {Status}")]
 	[System.Diagnostics.DebuggerTypeProxy (typeof (TaskDebuggerView))]
-	public class Task : IDisposable, IAsyncResult
+	public class Task : IDisposable, IAsyncResult,IAwaitable
 	{
 		// With this attribute each thread has its own value so that it's correct for our Schedule code
 		// and for Parent property.
@@ -966,7 +966,7 @@ namespace System.Threading.Tasks
 			return tcs.Task;
 		}
 
-		public TaskAwaiter GetAwaiter ()
+		public IAwaiter GetAwaiter ()
 		{
 			return new TaskAwaiter (this);
 		}

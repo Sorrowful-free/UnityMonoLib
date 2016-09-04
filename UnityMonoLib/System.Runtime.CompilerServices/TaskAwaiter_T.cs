@@ -31,11 +31,11 @@
 
 using System.Threading.Tasks;
 using System.Runtime.ExceptionServices;
-using UnityMonoLib.System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
 {
-	public struct TaskAwaiter<TResult> : IIAwaiter<TResult>
+	public struct TaskAwaiter<TResult> : IAwaiter<TResult>
 	{
 		readonly Task<TResult> task;
 
