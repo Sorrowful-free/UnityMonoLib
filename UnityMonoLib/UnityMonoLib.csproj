@@ -163,6 +163,7 @@
     <Compile Include="System.Threading\CountdownEvent.cs" />
     <Compile Include="System.Threading\ManualResetEventSlim.cs" />
     <Compile Include="System.Threading\SpinWait.cs" />
+    <Compile Include="System.Threading\ThreadPoolEx.cs" />
     <Compile Include="System.Threading\Watch.cs" />
     <Compile Include="System\AggregateException.cs" />
     <Compile Include="System\OperationCanceledExceptionExt.cs" />
