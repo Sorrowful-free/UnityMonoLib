@@ -199,4 +199,7 @@
   </Target>
   -->
   <ItemGroup />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)..\TestMonoLib\Assets\Library\$(TargetFileName)</PostBuildEvent>
+  </PropertyGroup>
 </Project>
