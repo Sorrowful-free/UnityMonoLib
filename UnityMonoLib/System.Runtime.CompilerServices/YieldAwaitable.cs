@@ -31,13 +31,12 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 
 namespace System.Runtime.CompilerServices
 {
-	public struct YieldAwaitable : IAwaitable
+	public struct YieldAwaitable
 	{
-		public struct YieldAwaiter : IAwaiter
+		public struct YieldAwaiter : ICriticalNotifyCompletion
 		{
 			public bool IsCompleted {
 				get {
@@ -47,34 +46,40 @@ namespace System.Runtime.CompilerServices
 
 			public void OnCompleted (Action continuation)
 			{
-				if (continuation == null)
-					throw new ArgumentNullException ("continuation");
-
-				if (TaskScheduler.Current == TaskScheduler.Default) {
-					//
-					// Pass continuation as an argument to avoid allocating
-					// hoisting class
-					//
-					ThreadPool.QueueUserWorkItem (l => ((Action) l) (), continuation);
-				} else {
-					new Task (continuation).Start (TaskScheduler.Current);
-				}
+				OnCompleted (continuation, false);
 			}
-			
+
 			public void UnsafeOnCompleted (Action continuation)
+			{
+				OnCompleted (continuation, true);
+			}
+
+			void OnCompleted (Action continuation, bool isUnsafe)
 			{
 				if (continuation == null)
 					throw new ArgumentNullException ("continuation");
 
-				if (TaskScheduler.Current == TaskScheduler.Default) {
+				var ctx = SynchronizationContext.Current;
+				if (ctx != null && ctx.GetType () != typeof (SynchronizationContext)) {
+					ctx.Post (l => ((Action) l) (), continuation);
+					return;
+				}
+
+				if (TaskScheduler.IsDefault) {
 					//
-					// Pass the continuation as an argument to avoid allocating
+					// Pass continuation as an argument to avoid allocating
 					// hoisting class
 					//
-					ThreadPool.QueueUserWorkItem(l => ((Action) l) (), continuation);
-				} else {
-					new Task (continuation).Start (TaskScheduler.Current);
+					WaitCallback callBack = l => ((Action) l) ();
+					if (isUnsafe) {
+						ThreadPool.UnsafeQueueUserWorkItem (callBack, continuation);
+					} else {
+						ThreadPool.QueueUserWorkItem (callBack, continuation);
+					}
+					return;
 				}
+
+				new Task (continuation).Start (TaskScheduler.Current);
 			}
 
 			public void GetResult ()
@@ -82,11 +87,11 @@ namespace System.Runtime.CompilerServices
 			}
 		}
 
-		public IAwaiter GetAwaiter ()
+		public YieldAwaitable.YieldAwaiter GetAwaiter ()
 		{
-            return new YieldAwaiter();
-        }
-    }
+			return new YieldAwaiter ();
+		}
+	}
 }
 
 #endif

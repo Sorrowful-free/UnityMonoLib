@@ -1,18 +1,51 @@
-using System.Collections.Generic;
+//
+// ExceptionDispatchInfo.cs
+//
+// Authors:
+//   Marek Safar (marek.safar@gmail.com)
+//
+// Copyright 2011 Xamarin, Inc (http://www.xamarin.com)
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
+#if NET_4_5
+
+using System.Diagnostics;
 
 namespace System.Runtime.ExceptionServices
 {
 	public sealed class ExceptionDispatchInfo
 	{
-        public static readonly List<Exception> ExceptionsList = new List<Exception>();
-		readonly Exception _exception;
-		
+		readonly Exception exception;
+
 		private ExceptionDispatchInfo (Exception source)
 		{
-			_exception = source;
+			this.exception = source;
 		}
 
-		public Exception SourceException { get { return _exception; } }
+		public Exception SourceException {
+			get {
+				return exception;
+			}
+		}
 
 		public static ExceptionDispatchInfo Capture (Exception source)
 		{
@@ -24,7 +57,9 @@ namespace System.Runtime.ExceptionServices
 
 		public void Throw ()
 		{
-            throw new Exception(_exception.Message, _exception); ;			
-        }
+			throw new Exception(exception.Message, exception);
+		}
 	}
 }
+
+#endif

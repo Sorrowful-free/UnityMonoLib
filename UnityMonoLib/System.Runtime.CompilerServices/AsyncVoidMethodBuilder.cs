@@ -29,7 +29,6 @@
 
 #if NET_4_5
 
-using System.Runtime.ExceptionServices;
 using System.Threading;
 
 namespace System.Runtime.CompilerServices
@@ -77,7 +76,7 @@ namespace System.Runtime.CompilerServices
 				throw new ArgumentNullException ("exception");
 
 			try {
-				context.Post (l => { ExceptionDispatchInfo.Capture ((Exception)l).Throw (); }, exception);
+				context.Post (l => { throw (Exception) l; }, exception);
 			} finally {
 				SetResult ();
 			}

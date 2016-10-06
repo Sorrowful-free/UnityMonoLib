@@ -51,7 +51,7 @@ namespace System.Threading.Tasks.Dataflow
 				throw new ArgumentNullException ("dataflowBlockOptions");
 
 			this.dataflowBlockOptions = dataflowBlockOptions;
-			compHelper = CompletionHelper.GetNew (dataflowBlockOptions);
+			compHelper = new CompletionHelper(dataflowBlockOptions);
 			target1 = new JoinTarget<T1> (this, SignalArrivalTarget, compHelper,
 				() => outgoing.IsCompleted, dataflowBlockOptions,
 				dataflowBlockOptions.Greedy, TryAdd1);

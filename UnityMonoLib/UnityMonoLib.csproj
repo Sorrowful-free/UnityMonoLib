@@ -200,6 +200,6 @@
   -->
   <ItemGroup />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)..\TestMonoLib\Assets\Library\$(TargetFileName)</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)..\GameCore\Assets\Libraries\$(TargetFileName)</PostBuildEvent>
   </PropertyGroup>
 </Project>

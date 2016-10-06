@@ -100,6 +100,12 @@ namespace System.Threading.Tasks
 				return id;
 			}
 		}
+
+		internal static bool IsDefault {
+			get {
+				return currentScheduler == null || currentScheduler == defaultScheduler;
+			}
+		}
 		
 		public virtual int MaximumConcurrencyLevel {
 			get {
@@ -143,8 +149,9 @@ namespace System.Threading.Tasks
 
 			return true;
 		}
+        
 
-		internal static UnobservedTaskExceptionEventArgs FireUnobservedEvent (Task task, AggregateException e)
+        internal static UnobservedTaskExceptionEventArgs FireUnobservedEvent (Task task, AggregateException e)
 		{
 			UnobservedTaskExceptionEventArgs args = new UnobservedTaskExceptionEventArgs (e);
 			
@@ -156,6 +163,12 @@ namespace System.Threading.Tasks
 			
 			return args;
 		}
-	}
+
+        protected void TaskExecuterCallback(object obj)
+        {
+            Task task = (Task)obj;
+            task.Execute();
+        }
+    }
 }
 #endif

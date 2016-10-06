@@ -37,8 +37,6 @@ namespace System.Threading.Tasks
 {
 	sealed class TpScheduler: TaskScheduler
 	{
-		static readonly WaitCallback callback = TaskExecuterCallback;
-
 		protected internal override void QueueTask (Task task)
 		{
 			if ((task.CreationOptions & TaskCreationOptions.LongRunning) != 0) {
@@ -50,14 +48,10 @@ namespace System.Threading.Tasks
 				return;
 			}
 
-			ThreadPool.QueueUserWorkItem(callback, task);
+			ThreadPool.QueueUserWorkItem(TaskExecuterCallback, task);
 		}
 
-		static void TaskExecuterCallback (object obj)
-		{
-			Task task = (Task)obj;
-			task.Execute ();
-		}
+		
 
 		protected override IEnumerable<Task> GetScheduledTasks ()
 		{
@@ -75,7 +69,7 @@ namespace System.Threading.Tasks
 			if (taskWasPreviouslyQueued && !TryDequeue (task))
 				return false;
 
-		    return TryExecuteTask(task);
+		    return TryExecuteTask (task);
 		}
 	}
 }

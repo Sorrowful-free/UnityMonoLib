@@ -61,7 +61,7 @@ namespace System.Threading.Tasks.Dataflow {
 
 			BatchSize = batchSize;
 			options = dataflowBlockOptions;
-			completionHelper = CompletionHelper.GetNew (dataflowBlockOptions);
+			completionHelper = new CompletionHelper(dataflowBlockOptions);
 
 			target1 = new JoinTarget<T1> (
 				this, SignalTarget, completionHelper, () => outgoing.IsCompleted,

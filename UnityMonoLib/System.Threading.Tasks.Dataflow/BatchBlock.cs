@@ -56,7 +56,7 @@ namespace System.Threading.Tasks.Dataflow {
 
 			this.batchSize = batchSize;
 			this.dataflowBlockOptions = dataflowBlockOptions;
-			this.compHelper = CompletionHelper.GetNew (dataflowBlockOptions);
+			this.compHelper = new CompletionHelper(dataflowBlockOptions);
 
 			Action<bool> processQueue;
 			Func<bool> canAccept;
