@@ -71,11 +71,8 @@ namespace System.Runtime.CompilerServices
 					// hoisting class
 					//
 					WaitCallback callBack = l => ((Action) l) ();
-					if (isUnsafe) {
-						ThreadPool.UnsafeQueueUserWorkItem (callBack, continuation);
-					} else {
-						ThreadPool.QueueUserWorkItem (callBack, continuation);
-					}
+					ThreadPool.QueueUserWorkItem (callBack, continuation);
+					
 					return;
 				}
 
