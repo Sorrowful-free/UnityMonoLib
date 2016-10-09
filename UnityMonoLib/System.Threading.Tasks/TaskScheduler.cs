@@ -168,6 +168,11 @@ namespace System.Threading.Tasks
         {
             Task task = (Task)obj;
             task.Execute();
+            if(task.IsFaulted)
+                SynchronizationContext.Current.Post(l =>
+                {
+                    throw ((Exception) l);
+                },task.Exception);
         }
     }
 }
