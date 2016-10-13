@@ -56,9 +56,10 @@ namespace System.Threading.Tasks
 				//
 				// .NET allows to configure this using config element ThrowUnobservedTaskExceptions
 				//
-#if !NET_4_5
-				throw Exception;
-#endif
+                if(SynchronizationContext.Current == null)
+				    throw Exception;
+                else
+                    SynchronizationContext.Current.Post(e=> { throw (System.Exception) e; },Exception);
 			}
 		}
 	}
